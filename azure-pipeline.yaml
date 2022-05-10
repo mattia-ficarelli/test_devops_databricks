@@ -22,7 +22,6 @@ steps:
     echo "y
     $(WORKSPACE-REGION-URL)
     $(CSE-DEVELOP-PAT)
-    $(EXISTING-CLUSTER-ID)
     $(WORKSPACE-ORG-ID)
     15001" | databricks-connect configure
   displayName: 'Configure DBConnect'
@@ -31,35 +30,20 @@ steps:
   persistCredentials: true
   clean: true
 
-- script: git checkout release
+- script: git checkout main
   displayName: 'Get Latest Branch'
-
-- script: |
-    python -m pytest --junit-xml=$(Build.Repository.LocalPath)/logs/TEST-LOCAL.xml
-$(Build.Repository.LocalPath)/libraries/python/dbxdemo/test*.py || true
-
-  displayName: 'Run Python Unit Tests for library code'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/TEST-*.xml'
-    failTaskOnFailedTests: true
-    publishRunAttachments: true
-
-- script: |
-    cd $(Build.Repository.LocalPath)/libraries/python/dbxdemo
-    python3 setup.py sdist bdist_wheel
-    ls dist/
-  displayName: 'Build Python Wheel for Libs'
 
 - script: |
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
 
-    mkdir -p $(Build.BinariesDirectory)/libraries/python/libs
-    cp $(Build.Repository.LocalPath)/libraries/python/dbxdemo/dist/*.* $(Build.BinariesDirectory)/libraries/python/libs
+    mkdir -p $(Build.BinariesDirectory)/analytics
+    cp $(Build.Repository.LocalPath)/analytics/*.* $(Build.BinariesDirectory)/analytics
 
-    mkdir -p $(Build.BinariesDirectory)/cicd-scripts
-    cp $(Build.Repository.LocalPath)/cicd-scripts/*.* $(Build.BinariesDirectory)/cicd-scripts
+    mkdir -p $(Build.BinariesDirectory)/functions
+    cp $(Build.Repository.LocalPath)/functions/*.* $(Build.BinariesDirectory)/functions
+
+    mkdir -p $(Build.BinariesDirectory)/ingestion
+    cp $(Build.Repository.LocalPath)/ingestion/*.* $(Build.BinariesDirectory)/ingestion
 
   displayName: 'Get Changes'
 
