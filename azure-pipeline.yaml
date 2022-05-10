@@ -40,6 +40,12 @@ steps:
     mkdir -p $(Build.BinariesDirectory)/functions
     cp $(Build.Repository.LocalPath)/functions/* $(Build.BinariesDirectory)/functions
     
+    mkdir -p $(Build.BinariesDirectory)/analytics
+    cp $(Build.Repository.LocalPath)/analytics/* $(Build.BinariesDirectory)/analytics
+    
+    mkdir -p $(Build.BinariesDirectory)/ingestion
+    cp $(Build.Repository.LocalPath)/ingestion/* $(Build.BinariesDirectory)/ingestion
+    
   displayName: 'Get Changes'
 
 - task: ArchiveFiles@2
