@@ -17,7 +17,7 @@
 		"name": "trigger_open_repos",
     	"folder": "nhsx-au-analytics/github_gitlab/openrepos/",
 		"ingestion": {
-			"databricks_notebook": "/Repos/prod/au-azure-databricks/ingestion/dbrks_open_repos/dbrks_analytics_github_gitlab_openrepos_raw"
+			"databricks_notebook": "/prod/au-azure-databricks/ingestion/dbrks_open_repos/dbrks_analytics_github_gitlab_openrepos_raw"
 		},
 		"raw": {		
 			"sink_path": "raw/github_gitlab/webscrape/table/open_repos/full/",
@@ -34,7 +34,7 @@
 			"source_file":"open_repos_full.csv",
 			"sink_path": "proc/projects/nhsx_slt_analytics/analytics/github_gitlab/openrepos_month_count/",
 			"sink_file": "github_gitlab_openrepos_month_count.csv",
-			"databricks_notebook": "/Repos/prod/au-azure-databricks/analytics/dbrks_open_repos/dbrks_analytics_github_gitlab_openrepos_month_count"
+			"databricks_notebook": "/prod/au-azure-databricks/analytics/dbrks_open_repos/dbrks_analytics_github_gitlab_openrepos_month_count"
 		},
 		"staging":{
 			"metric":"github_gitlab_openrepos_month_count",
