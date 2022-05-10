@@ -45,6 +45,9 @@ steps:
     
     mkdir -p $(Build.BinariesDirectory)/ingestion
     cp -r $(Build.Repository.LocalPath)/ingestion/* $(Build.BinariesDirectory)/ingestion
+
+    mkdir -p $(Build.BinariesDirectory)/config
+    cp -r $(Build.Repository.LocalPath)/config/* $(Build.BinariesDirectory)/config
     
   displayName: 'Get Changes'
 
