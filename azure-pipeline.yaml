@@ -37,14 +37,14 @@ steps:
 - script: |
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
 
-    mkdir -p $(Build.BinariesDirectory)/analytics
-    cp $(Build.Repository.LocalPath)/analytics/*.* $(Build.BinariesDirectory)/analytics
+    mkdir -p $(Build.BinariesDirectory)/prod/au-azure-databricks/analytics
+    cp $(Build.Repository.LocalPath)/prod/au-azure-databricks/analytics/*.* $(Build.BinariesDirectory)/analytics
 
-    mkdir -p $(Build.BinariesDirectory)/functions
-    cp $(Build.Repository.LocalPath)/functions/*.* $(Build.BinariesDirectory)/functions
+    mkdir -p $(Build.BinariesDirectory)/prod/au-azure-databricks/functions
+    cp $(Build.Repository.LocalPath)/prod/au-azure-databricks/functions/*.* $(Build.BinariesDirectory)/functions
 
-    mkdir -p $(Build.BinariesDirectory)/ingestion
-    cp $(Build.Repository.LocalPath)/ingestion/*.* $(Build.BinariesDirectory)/ingestion
+    mkdir -p $(Build.BinariesDirectory)/prod/au-azure-databricks/ingestion
+    cp $(Build.Repository.LocalPath)/prod/au-azure-databricks/ingestion/*.* $(Build.BinariesDirectory)/ingestion
 
   displayName: 'Get Changes'
 
