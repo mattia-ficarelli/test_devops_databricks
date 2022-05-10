@@ -38,7 +38,7 @@ steps:
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
 
     mkdir -p $(Build.BinariesDirectory)/functions
-    cp $(Build.Repository.LocalPath)/functions/* $(Build.BinariesDirectory)/functions/*
+    cp $(Build.Repository.LocalPath)/functions/* $(Build.BinariesDirectory)/functions
     
   displayName: 'Get Changes'
 
