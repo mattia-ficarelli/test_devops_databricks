@@ -5,7 +5,7 @@ trigger:
 - release
 
 pool:
-  name: Hosted Ubuntu 1604
+  name: Hosted ubuntu-latest
 
 steps:
 - task: UsePythonVersion@0
