@@ -38,7 +38,7 @@ steps:
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
 
     mkdir -p $(Build.BinariesDirectory)/analytics
-    cp $(Build.Repository.LocalPath)/analytics/*.* $(Build.BinariesDirectory)/analytics
+    cp $(Build.Repository.LocalPath)/analytics\*.* $(Build.BinariesDirectory)/analytics
     
   displayName: 'Get Changes'
 
