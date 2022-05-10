@@ -38,13 +38,13 @@ steps:
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
 
     mkdir -p $(Build.BinariesDirectory)/functions
-    cp $(Build.Repository.LocalPath)/functions/* $(Build.BinariesDirectory)/functions
+    cp -r $(Build.Repository.LocalPath)/functions/* $(Build.BinariesDirectory)/functions
     
     mkdir -p $(Build.BinariesDirectory)/analytics
-    cp $(Build.Repository.LocalPath)/analytics/* $(Build.BinariesDirectory)/analytics
+    cp -r $(Build.Repository.LocalPath)/analytics/* $(Build.BinariesDirectory)/analytics
     
     mkdir -p $(Build.BinariesDirectory)/ingestion
-    cp $(Build.Repository.LocalPath)/ingestion/* $(Build.BinariesDirectory)/ingestion
+    cp -r $(Build.Repository.LocalPath)/ingestion/* $(Build.BinariesDirectory)/ingestion
     
   displayName: 'Get Changes'
 
