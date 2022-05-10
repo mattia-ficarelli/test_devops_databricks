@@ -8,7 +8,7 @@
 		"metrics": [
 			{
             "id": "M027",
-            "full_name": "Number of health and care projects shared in open repositories",
+            "full_name": "The number of health and care projects shared in open repositories",
 			"short_name":"github_gitlab_openrepos_month_count"
         	}
 		]
