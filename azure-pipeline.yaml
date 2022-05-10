@@ -21,6 +21,7 @@ steps:
 - script: |
     echo "y
     $(WORKSPACE-REGION-URL)
+    $(EXISTING-CLUSTER-ID)
     $(CSE-DEVELOP-PAT)
     $(WORKSPACE-ORG-ID)
     15001" | databricks-connect configure
