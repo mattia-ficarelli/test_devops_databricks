@@ -37,8 +37,8 @@ steps:
 - script: |
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
 
-    mkdir -p $(Build.BinariesDirectory)/functions/dbrks_helper_functions.py
-    cp $(Build.Repository.LocalPath)/functions/dbrks_helper_functions.py $(Build.BinariesDirectory)/functions/dbrks_helper_functions.py
+    mkdir -p $(Build.BinariesDirectory)/functions
+    cp $(Build.Repository.LocalPath)/functions/* $(Build.BinariesDirectory)/functions/*
     
   displayName: 'Get Changes'
 
