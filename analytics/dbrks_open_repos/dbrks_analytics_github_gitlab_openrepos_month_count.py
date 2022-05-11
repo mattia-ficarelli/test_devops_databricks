@@ -45,11 +45,11 @@ from azure.storage.filedatalake import DataLakeServiceClient
 # Connect to Azure datalake
 # -------------------------------------------------------------------------
 # !env from databricks secrets
-CONNECTION_STRING = dbutils.secrets.get(scope="datalakefs", key="CONNECTION_STRING")
+CONNECTION_STRING = dbutils.secrets.get(scope='AzureDataLake', key="DATALAKE_CONNECTION_STRING")
 
 # COMMAND ----------
 
-# MAGIC %run /Repos/prod/au-azure-databricks/functions/dbrks_helper_functions
+# MAGIC %run /Shared/prod/au-azure-databricks/functions/dbrks_helper_functions
 
 # COMMAND ----------
 
@@ -57,7 +57,7 @@ CONNECTION_STRING = dbutils.secrets.get(scope="datalakefs", key="CONNECTION_STRI
 # -------------------------------------------------------------------------
 file_path_config = "/config/pipelines/nhsx-au-analytics/"
 file_name_config = "config_openrepos_dbrks.json"
-file_system_config = "nhsxdatalakesagen2fsprod"
+file_system_config = dbutils.secrets.get(scope='AzureDataLake', key="DATALAKE_CONTAINER_NAME")
 config_JSON = datalake_download(CONNECTION_STRING, file_system_config, file_path_config, file_name_config)
 config_JSON = json.loads(io.BytesIO(config_JSON).read())
 
@@ -65,11 +65,11 @@ config_JSON = json.loads(io.BytesIO(config_JSON).read())
 
 # Read parameters from JSON config
 # -------------------------------------------------------------------------
-file_system = config_JSON['pipeline']['adl_file_system']
+file_system = dbutils.secrets.get(scope='AzureDataLake', key="DATALAKE_CONTAINER_NAME")
 source_path = config_JSON['pipeline']['project']['source_path']
 source_file = config_JSON['pipeline']['project']['source_file']
 sink_path = config_JSON['pipeline']['project']['sink_path']
-sink_file = config_JSON['pipeline']['project']['sink_file']  
+sink_file = config_JSON['pipeline']['project']['sink_file']
 
 # COMMAND ----------
 
@@ -78,6 +78,10 @@ sink_file = config_JSON['pipeline']['project']['sink_file']
 latestFolder = datalake_latestFolder(CONNECTION_STRING, file_system, source_path)
 file = datalake_download(CONNECTION_STRING, file_system, source_path+latestFolder, source_file)
 df = pd.read_csv(io.BytesIO(file))
+df['Date'] = pd.to_datetime(df['Date'])
+df['Number of new open repositories'] = df['Number of new open repositories'].astype(int)
+df['Cumulative number of open repositories'] = df['Cumulative number of open repositories'].astype(int)
+df.sort_values(by=['Date'])
 df1 = df.set_index('Unique ID')
 df_processed = df1.copy()
 
@@ -88,3 +92,34 @@ df_processed = df1.copy()
 file_contents = io.StringIO()
 df_processed.to_csv(file_contents)
 datalake_upload(file_contents, CONNECTION_STRING, file_system, sink_path+latestFolder, sink_file)
+
+# COMMAND ----------
+
+# Create PySpark DataFrame from Pandas DataFrame
+# -------------------------------------------------------------------------
+
+sparkDF=spark.createDataFrame(df_processed)
+
+# Write data from databricks to dev SQL database
+# -------------------------------------------------------------------------
+
+server_name = dbutils.secrets.get(scope="sqldatabase", key="SERVER_NAME")
+database_name = dbutils.secrets.get(scope="sqldatabase", key="DATABASE_NAME")
+
+url = server_name + ";" + "databaseName=" + database_name + ";"
+
+table_name = config_JSON['pipeline']['staging']['sink_table']
+username = dbutils.secrets.get(scope="sqldatabase", key="USER_NAME")
+password = dbutils.secrets.get(scope="sqldatabase", key="PASSWORD")
+
+try:
+  sparkDF.write \
+    .format("com.microsoft.sqlserver.jdbc.spark") \
+    .mode("overwrite") \
+    .option("url", url) \
+    .option("dbtable", table_name) \
+    .option("user", username) \
+    .option("password", password) \
+    .save()
+except ValueError as error:
+    print("Connector write failed", error)
