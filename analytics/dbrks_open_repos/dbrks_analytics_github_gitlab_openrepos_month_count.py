@@ -10,7 +10,7 @@
 """
 FILE:           analytics_github_gitlab_openrepos_month_count.py
 DESCRIPTION:
-                Databricks notebook with processing code for the NHSX Analyticus unit metric: Number of health and care projects shared in open repositories (M027)
+                Databricks notebook with processing code for the NHSX Analyticus unit metric: Number of health and care projects shared in open repositories (M027) test
 USAGE:
                 ...
 CONTRIBUTORS:   Craig Shenton, Mattia Ficarelli
