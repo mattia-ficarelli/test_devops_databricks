@@ -13,7 +13,7 @@ DESCRIPTION:
                 Orchestrator databricks notebook which runs the processing notebooks for NHSX Analyticus unit metrics within the Electronic Prescription Service (EPS) topic
 USAGE:
                 ...
-CONTRIBUTORS:   Craig Shenton, Mattia Ficarelli
+CONTRIBUTORS:   Mattia Ficarelli
 CONTACT:        data@nhsx.nhs.uk
 CREATED:        04 Oct. 2021
 VERSION:        0.0.1
@@ -63,11 +63,14 @@ config_JSON = json.loads(io.BytesIO(config_JSON).read())
 
 # COMMAND ----------
 
+#Get databricksworkspace specfic path
+path_start = dbutils.secrets.get(scope='DatabricksNotebookPath', key="DATABRICKS_PATH")
+
 #Squentially run metric notebooks
 for index, item in enumerate(config_JSON['pipeline']['project']['databricks']): # get index of objects in JSON array
     try:
         notebook = config_JSON['pipeline']['project']['databricks'][index]['databricks_notebook']
-        dbutils.notebook.run(notebook, 1000) # is 120 sec long enough for timeout?
+        dbutils.notebook.run(path_start+notebook, 1000) # is 120 sec long enough for timeout?
     except Exception as e:
         print(e)
         raise Exception()
