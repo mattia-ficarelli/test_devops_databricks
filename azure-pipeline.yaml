@@ -3,7 +3,8 @@
 
 trigger:
   branches:
-      - main
+    include:
+    - main
   paths:
     include:
     - functions/*
