@@ -3,7 +3,7 @@
 		"products": [
 			{
 			"product_name": "General Practice Digital Maturity and Capability (GPDMC) Dashboard",
-			"granularity": "GP practice",
+			"granularity": "GP practices",
 			"topic": "Electronic Prescription Service (EPS)",
 			"metrics": [
 				{
