@@ -2,7 +2,14 @@
 # azure-pipelines.yml
 
 trigger:
-- main
+  branches:
+      - main
+  paths:
+    include:
+    - functions/*
+    - orchestration/*
+    - ingestion/*
+    - analytics/*
 
 pool:
   vmImage: ubuntu-latest
@@ -45,6 +52,9 @@ steps:
     
     mkdir -p $(Build.BinariesDirectory)/ingestion
     cp -r $(Build.Repository.LocalPath)/ingestion/* $(Build.BinariesDirectory)/ingestion
+    
+    mkdir -p $(Build.BinariesDirectory)/orchestration
+    cp -r $(Build.Repository.LocalPath)/orchestration/* $(Build.BinariesDirectory)/orchestration
     
   displayName: 'Get Changes'
 
