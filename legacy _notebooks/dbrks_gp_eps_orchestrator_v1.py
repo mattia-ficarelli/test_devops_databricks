@@ -41,7 +41,6 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 from azure.storage.filedatalake import DataLakeServiceClient
-from concurrent.futures import ThreadPoolExecutor
 
 # Connect to Azure datalake
 # -------------------------------------------------------------------------
@@ -65,11 +64,13 @@ config_JSON = json.loads(io.BytesIO(config_JSON).read())
 # COMMAND ----------
 
 #Get databricksworkspace specfic path
-#---------------------------------
 path_start = dbutils.secrets.get(scope='DatabricksNotebookPath', key="DATABRICKS_PATH")
 
-#Run metric notebooks in parallel 
-#---------------------------------
-notebook_list = [NotebookData(path_start + notebook['databricks_notebook'], 1200) for notebook in config_JSON['pipeline']['project']['databricks']]
-notebook_run= parallelNotebooks(notebook_list, len(config_JSON['pipeline']['project']['databricks']))
-notebook_run_result = [notebook.result(timeout=3600) for notebook in notebook_run]
+#Squentially run metric notebooks
+for index, item in enumerate(config_JSON['pipeline']['project']['databricks']): # get index of objects in JSON array
+    try:
+        notebook = config_JSON['pipeline']['project']['databricks'][index]['databricks_notebook']
+        dbutils.notebook.run(path_start+notebook, 1000) # is 120 sec long enough for timeout?
+    except Exception as e:
+        print(e)
+        raise Exception()
