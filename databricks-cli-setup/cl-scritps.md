@@ -20,6 +20,7 @@ databricks secrets put --scope DatabricksNotebookPath --key DATABRICKS_PATH
 /Repos #--- for a dev enviroment
 /Shared #---- for test and Prod enviroment
 
+
 Configure SQL Database for databricks workspace
 --------------------------------------------------------
 databricks secrets create-scope --scope sqldatabase --initial-manage-principal "users"
