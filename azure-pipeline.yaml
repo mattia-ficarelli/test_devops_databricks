@@ -11,7 +11,7 @@ trigger:
     - orchestration/*
     - ingestion/*
     - analytics/*
-
+    
 pool:
   vmImage: ubuntu-latest
 
@@ -56,7 +56,6 @@ steps:
     
     mkdir -p $(Build.BinariesDirectory)/orchestration
     cp -r $(Build.Repository.LocalPath)/orchestration/* $(Build.BinariesDirectory)/orchestration
-    
   displayName: 'Get Changes'
 
 - task: ArchiveFiles@2
