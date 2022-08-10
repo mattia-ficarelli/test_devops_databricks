@@ -1,0 +1,38 @@
+{
+	"metadata": {
+		"products": [
+		{
+		"product_name": "Regualar data load of Crime data from Police UK",
+		"Granularity": "Street",
+		"topic": "Crime counts by type at a UK street level",
+		"metrics": [
+			{
+            "id": "M001",
+            "full_name": "Monthly crime counts by type at a UK street level",
+			"short_name":"police_crime_type_month_count"
+        	}
+		]
+	}]},
+	"pipeline": {
+		"name": "trigger_police_data",
+    	"folder": "ad_hoc/police_data/crime_counts/",
+		"ingestion": {
+			"databricks_notebook": "/prod/au-azure-databricks/ingestion/dbrks_police_data/dbrks_police_data_raw"
+		},
+		"raw": {		
+			"sink_path": "bronze/police_data/historical/",
+			"sink_file": "police_data_historical.parquet"
+		},
+		"project": {
+			"source_path": "bronze/police_data/historical/",
+			"source_file":"police_data_historical.parquet",
+			"sink_path": "bronze/police_data/police_crime_type_month_count/",
+			"sink_file": "police_crime_type_month_count.parquet",
+			"databricks_notebook": "/prod/au-azure-databricks/analytics/dbrks_police_data/dbrks_police_crime_type_month_count"
+		},
+		"staging":{
+			"metric":"police_crime_type_month_count",
+			"sink_table":"police_crime_type_month_count"
+		}
+	}
+}
