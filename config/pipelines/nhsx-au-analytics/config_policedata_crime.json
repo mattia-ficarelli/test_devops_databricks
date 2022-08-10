@@ -21,7 +21,9 @@
 		},
 		"raw": {		
 			"sink_path": "bronze/police_data/historical/",
-			"sink_file": "police_data_historical.parquet"
+			"sink_file": "police_data_historical.parquet",
+			"appended_path": "bronze/police_data/historical/",
+			"appended_file": "police_data_historical.parquet"
 		},
 		"project": {
 			"source_path": "bronze/police_data/historical/",
