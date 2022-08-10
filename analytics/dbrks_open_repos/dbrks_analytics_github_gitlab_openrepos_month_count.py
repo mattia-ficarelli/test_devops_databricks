@@ -108,7 +108,7 @@ database_name = dbutils.secrets.get(scope="sqldatabase", key="DATABASE_NAME")
 
 url = server_name + ";" + "databaseName=" + database_name + ";"
 
-table_name = config_JSON['pipeline']['staging']['sink_table']
+table_name = config_JSON['pipeline']['staging']['sink_table']  
 username = dbutils.secrets.get(scope="sqldatabase", key="USER_NAME")
 password = dbutils.secrets.get(scope="sqldatabase", key="PASSWORD")
 
