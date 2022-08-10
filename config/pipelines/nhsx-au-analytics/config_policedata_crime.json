@@ -22,12 +22,12 @@
 		"raw": {		
 			"sink_path": "bronze/police_data/historical/",
 			"sink_file": "police_data_historical.parquet",
-			"snapshot_path": "bronze/police_data/historical/",
-			"snapshot_file": "police_data_historical.parquet"
+			"snapshot_path": "bronze/police_data/snapshot/",
+			"snapshot_file": "police_data_snapshot.parquet"
 		},
 		"project": {
-			"snapshot_path": "bronze/police_data/historical/",
-			"snapshot_file":"police_data_historical.parquet",
+			"snapshot_path": "bronze/police_data/snapshot/",
+			"snapshot_file":"police_data_snapshot.parquet",
 			"sink_path": "gold/police_data/police_crime_type_month_count/",
 			"sink_file": "police_crime_type_month_count.parquet",
 			"databricks_notebook": "/prod/au-azure-databricks/analytics/dbrks_police_data/dbrks_police_crime_type_month_count"
